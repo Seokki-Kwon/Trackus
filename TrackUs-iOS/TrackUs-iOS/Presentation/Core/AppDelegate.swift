@@ -42,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Messaging.messaging().token { token, error in
             if let error = error {
                 debugPrint(#function + error.localizedDescription)
-            } else if let token = token {
+            } else if token != nil {
                 
             }
         }

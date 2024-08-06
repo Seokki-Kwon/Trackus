@@ -110,7 +110,7 @@ class ProfileRecordsCell: UITableViewCell {
         distanceLabel.text = running.distance.asString(style: .km)
         paceLabel.text = running.pace.asString(style: .pace)
         
-        secondsLabel.text = running.seconds.toMMSSTimeFormat
+        secondsLabel.text = running.seconds.toHHMMSSTimeFormat
         
         let formatter = DateFormatter()
         formatter.dateFormat = "h:mm a"

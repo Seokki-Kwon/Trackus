@@ -8,10 +8,13 @@
 import UIKit
 import SnapKit
 import Then
+import Combine
 
 final class TrackingViewController: UIViewController {
     
 // MARK: - Properties
+    private var cancellables = Set<AnyCancellable>()
+    
     private let viewModel: TrackingViewModel
     
     private let distanceLabel = UILabel().then {
@@ -32,14 +35,16 @@ final class TrackingViewController: UIViewController {
         $0.text = "0'00"
     }
     
-    private let startButton = UIButton().then {
+    private lazy var startButton = UIButton().then {
         $0.setTitle("Start", for: .normal)
         $0.backgroundColor = .red
+        $0.addTarget(self, action: #selector(startButtonTapped), for: .touchUpInside)
     }
     
-    private let stopButton = UIButton().then {
+    private lazy var stopButton = UIButton().then {
         $0.setTitle("Stop", for: .normal)
         $0.backgroundColor = .green
+        $0.addTarget(self, action: #selector(stopButtonTapped), for: .touchUpInside)
     }
     
     private let pauseButton = UIButton().then {
@@ -53,11 +58,13 @@ final class TrackingViewController: UIViewController {
         $0.alignment = .center
     }
 
+    // MARK: - LifeCylcle
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
         setupLayout()
+        bind()
     }
     
     init(viewModel: TrackingViewModel) {
@@ -70,9 +77,10 @@ final class TrackingViewController: UIViewController {
     }
 }
 
-// MARK: - Helpers
+// MARK: - Layout
 extension TrackingViewController {
-    func setupLayout() {
+    
+    private func setupLayout() {
         view.addSubview(distanceLabel)
         distanceLabel.snp.makeConstraints {
             $0.centerX.centerY.equalToSuperview()
@@ -121,5 +129,35 @@ extension TrackingViewController {
         buttonContainerView.addArrangedSubview(startButton)
         buttonContainerView.addArrangedSubview(stopButton)
         buttonContainerView.addArrangedSubview(pauseButton)
+    }
+}
+
+// MARK: - Data
+extension TrackingViewController {
+    
+    private func bind() {
+        viewModel.state.isTrackingMode
+            .sink { isTrackingMode in
+                print(isTrackingMode)
+            }
+            .store(in: &cancellables)
+        
+        viewModel.state.elapsedTime
+            .withUnretained(self)
+            .sink { (owner, count) in
+                owner.timeLabel.text = count.toHHMMSSTimeFormat
+            }
+            .store(in: &cancellables)
+    }
+}
+
+// MARK: - Helpers
+extension TrackingViewController {
+    @objc func startButtonTapped() {
+        viewModel.send(.startButtonTap)
+    }
+    
+    @objc func stopButtonTapped() {
+        viewModel.send(.stopButtonTap)
     }
 }
