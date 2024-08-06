@@ -9,6 +9,10 @@ import Foundation
 import CoreLocation
 import UIKit
 
+protocol UserLocationDelegate: AnyObject {
+    func userLocationUpated(location: CLLocation)
+}
+
 final class LocationService: NSObject, CLLocationManagerDelegate {
     static let shared = LocationService()
     let locationManager = CLLocationManager()

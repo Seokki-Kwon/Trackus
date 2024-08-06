@@ -255,9 +255,6 @@ final class RunTrackingVC: UIViewController {
         setConstraint()
         setTimer()
         setRunInfo()
-        if #available(iOS 16.2, *) {
-            displayWidget()
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -333,10 +330,6 @@ final class RunTrackingVC: UIViewController {
         stopTimer()
         setCameraOnPauseMode()
         setPauseModeUI()
-        
-        if #available(iOS 16.2, *) {
-            updateWidget()
-        }
     }
     
     func setStartModeUI() {
@@ -408,26 +401,11 @@ final class RunTrackingVC: UIViewController {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: { [weak self] _ in
             guard let self = self else { return }
             runModel.seconds += 1
-            
-            if #available(iOS 16.2, *) {
-                updateWidget()
-            }
         })
         
         
     }
-    
-    @available(iOS 16.2, *)
-    func updateWidget() {
-        guard let activity = WidgetManager.shared.activity else {
-            return
-        }
-        Task {
-            await activity.update(using: WidgetTestAttributes.ContentState(time: runModel.seconds.toMMSSTimeFormat,
-                                                                           pace: runModel.pace.asString(style: .pace), kilometer: String(format: "%.2f", runModel.distance / 1000.0),
-                                                                           cadance: "\(runModel.cadance)"))
-        }
-    }
+
     
     func stopTimer() {
         timer?.invalidate()
@@ -497,31 +475,6 @@ final class RunTrackingVC: UIViewController {
         }
     }
     
-    @available (iOS 16.2, *)
-    func displayWidget() {
-        if ActivityAuthorizationInfo().areActivitiesEnabled {
-            let attributes = WidgetTestAttributes(name: "test")
-            let initialState = WidgetTestAttributes.ContentState(time: "00:00", pace: "-'--''", kilometer: "0.00", cadance: "\(runModel.cadance)")
-            
-            do {
-                WidgetManager.shared.activity = try Activity<WidgetTestAttributes>.request(
-                    attributes: attributes,
-                    content: .init(state: initialState, staleDate: nil)
-                )
-                
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
-    @available (iOS 16.2, *)
-    func removeWidget() {        
-        Task {
-            await WidgetManager.shared.activity.end(nil, dismissalPolicy: .immediate)
-        }
-    }
-    
 
     @objc func pangestureHandler(sender: UIPanGestureRecognizer) {
         let translation = sender.translation(in: actionButton)
@@ -547,9 +500,6 @@ final class RunTrackingVC: UIViewController {
         }
         else if sender.state == .ended && newX > maxX * 0.9 {
             goToResultVC()
-            if #available(iOS 16.2, *) {
-                removeWidget()
-            }
         }
         else if sender.state == .ended  {
             animation.toValue = defaultPath

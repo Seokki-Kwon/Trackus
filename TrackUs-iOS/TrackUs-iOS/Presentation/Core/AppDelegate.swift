@@ -79,15 +79,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        let semaphore = DispatchSemaphore(value: 0)
-                Task.detached
-                {
-                    if #available(iOS 16.2, *) {
-                        await WidgetManager.shared.activity.end(nil, dismissalPolicy: .immediate)
-                    }
-                    semaphore.signal()
-                }
-                semaphore.wait()
             
     }
 }

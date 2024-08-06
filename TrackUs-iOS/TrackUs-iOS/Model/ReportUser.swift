@@ -8,7 +8,7 @@
 import Foundation
 import Firebase
 
-struct report_user: Codable {
+struct ReportUser: Codable {
     var uid: String
     var toUser: String
     var toUserUid: String
