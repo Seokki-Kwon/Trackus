@@ -39,11 +39,10 @@ struct ImageUploader {
         
         ref.putData(imageData, metadata: nil) { meta, error in
             if let error = error {
-                print("DEBUG: Failed to upload image : \(error.localizedDescription)")
+                debugPrint(#function + error.localizedDescription)
                 return
             }
-            
-            print("Succesfully upload image...")
+                        
             ref.downloadURL { url, _ in
                 guard let url = url?.absoluteString else { return }
                 completion(url)
@@ -58,11 +57,10 @@ struct ImageUploader {
         
         ref.putData(imageData, metadata: nil) { meta, error in
             if let error = error {
-                print("DEBUG: Failed to upload image : \(error.localizedDescription)")
+                debugPrint(#function + error.localizedDescription)
                 return
             }
             
-            print("Succesfully upload image...")
             ref.downloadURL { url, _ in
                 guard let url = url?.absoluteString else { return }
                 ImageCacheManager.shared.setImage(image: image, url: url)

@@ -63,7 +63,6 @@ class UserManager {
                     // user 데이터 처리
                     DispatchQueue.main.async {
                         self.user = user
-                        print(user.uid)
                     }
                     
                 } catch {
@@ -102,9 +101,7 @@ class UserManager {
             if let error = error {
                 // 업데이트 중에 오류가 발생한 경우 처리
                 debugPrint(#function + error.localizedDescription)
-            } else {
-                // 업데이트가 성공한 경우 처리
-                print("Token updated successfully")
+            } else {                
             }
         }
     }

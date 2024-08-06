@@ -318,9 +318,9 @@ class ChatRoomVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
                             "members": chat.members
                         ]) { error in
                             if let error = error {
-                                print("Error updating document: \(error)")
+                                debugPrint(#function + error.localizedDescription)
                             } else {
-                                print("Document successfully updated")
+                                
                             }
                         }
                     }
@@ -409,7 +409,7 @@ class ChatRoomVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             "userInOut": message.userInOut as Any
         ]) { error in
             if let error = error {
-                print("Error adding message: \(error)")
+                debugPrint(#function + error.localizedDescription)
             } else {
                 DispatchQueue.main.async {
                     if opponentUid != self.currentUserUid && message.messageType != .userInout {
@@ -459,23 +459,22 @@ class ChatRoomVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             let jsonData = try JSONSerialization.data(withJSONObject: message, options: .prettyPrinted)
             request.httpBody = jsonData
         } catch {
-            print("Error: unable to create JSON data")
+            debugPrint(#function + error.localizedDescription)
             return
         }
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
-                print("Error: \(error)")
+                debugPrint(#function + error.localizedDescription)
                 return
             }
 
             if let response = response as? HTTPURLResponse, !(200...299).contains(response.statusCode) {
-                print("Server error: \(response.statusCode)")
                 return
             }
 
             if let data = data, let responseJSON = try? JSONSerialization.jsonObject(with: data, options: []) {
-                print("Response JSON: \(responseJSON)")
+                
             }
         }
 
@@ -520,7 +519,7 @@ class ChatRoomVC: UIViewController, UITableViewDataSource, UITableViewDelegate, 
             .addSnapshotListener { [weak self] snapshot, error in
                 guard let self = self else { return }
                 if let error = error {
-                    print("Error fetching messages: \(error)")
+                    debugPrint(#function + error.localizedDescription)
                     return
                 }
                 guard let documents = snapshot?.documents else { return }
@@ -632,7 +631,7 @@ extension ChatRoomVC: SideMenuDelegate {
             "members.\(currentUserUid)": false
         ]) { error in
             if let error = error {
-                print("Error updating document: \(error)")
+                debugPrint(#function + error.localizedDescription)
             }
         }
         
@@ -642,7 +641,7 @@ extension ChatRoomVC: SideMenuDelegate {
                 "usersUnreadCountInfo.\(currentUserUid)": FieldValue.delete()
             ]) { error in
                 if let error = error {
-                    print("Error updating document: \(error)")
+                    debugPrint(#function + error.localizedDescription)
                 }
             }
         } else { // 개인채팅

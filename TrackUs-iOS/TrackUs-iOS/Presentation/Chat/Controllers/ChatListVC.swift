@@ -108,7 +108,7 @@ class ChatListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             "members.\(currentUserUid)": false
         ]) { error in
             if let error = error {
-                print("Error updating document: \(error)")
+                debugPrint(#function + error.localizedDescription)
             }
         }
         
@@ -118,7 +118,7 @@ class ChatListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 "usersUnreadCountInfo.\(currentUserUid)": FieldValue.delete()
             ]) { error in
                 if let error = error {
-                    print("Error updating document: \(error)")
+                    debugPrint(#function + error.localizedDescription)
                 }
             }
         } else { // 개인채팅
@@ -126,7 +126,7 @@ class ChatListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 "usersUnreadCountInfo.\(currentUserUid)": 0
             ]) { error in
                 if let error = error {
-                    print("Error updating document: \(error)")
+                    debugPrint(#function + error.localizedDescription)
                 }
             }
         }
@@ -174,7 +174,7 @@ class ChatListVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             "userInOut": message.userInOut as Any
         ]) { error in
             if let error = error {
-                print("Error adding message: \(error)")
+                debugPrint(#function + error.localizedDescription)
             }
         }
     }

@@ -282,13 +282,13 @@ class ReportUserVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         Firestore.firestore().collection("users").document(userId).getDocument { [weak self] snapshot, error in
             guard let self = self else { return }
             if let error = error {
-                print("Failed to fetch user profile: \(error)")
+                debugPrint(#function + error.localizedDescription)
                 return
             }
             guard let data = snapshot?.data(),
                   let userName = data["name"] as? String,
                   let profileImageUrl = data["profileImageUrl"] as? String else {
-                print("No user data found")
+            
                 return
             }
             self.nameLabel.text = userName
@@ -349,7 +349,9 @@ class ReportUserVC: UIViewController, UIPickerViewDelegate, UIPickerViewDataSour
         Firestore.firestore().collection("report_user").addDocument(data: reportData) { [weak self] error in
             guard let self = self else { return }
             if let error = error {
-                print("Failed to report user: \(error)")
+                
+                debugPrint(#function + error.localizedDescription)
+                
                 self.showAlert(message: "신고에 실패했습니다. 다시 시도해 주세요.")
             } else {
                 self.showAlert(message: "신고가 성공적으로 접수되었습니다.", completion: {

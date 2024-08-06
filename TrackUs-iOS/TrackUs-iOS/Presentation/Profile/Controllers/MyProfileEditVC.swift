@@ -213,13 +213,13 @@ class MyProfileEditVC: UIViewController, ProfileImageViewDelegate,UITextFieldDel
         // 이미지 storage에 저장
         ref.putData(jpegData, metadata: metadata) { metadata, error in
             if let error = error {
-                print("Failed to push image to Storage: \(error)")
+                debugPrint(#function + error.localizedDescription)
                 return
             }
             // url 받아오기
             ref.downloadURL { url, error in
                 if let error = error{
-                    print("Failed to retrieve downloadURL: \(error)")
+                    debugPrint(#function + error.localizedDescription)
                     return
                 }
                 
@@ -243,7 +243,7 @@ class MyProfileEditVC: UIViewController, ProfileImageViewDelegate,UITextFieldDel
             .whereField("name", isEqualTo: name)
             .getDocuments { (querySnapshot, error) in
                 if let error = error {
-                    print("Error getting documents: \(error)")
+                    debugPrint(#function + error.localizedDescription)
                     completionHandler(false)
                     return
                 }

@@ -11,6 +11,7 @@ import CoreMotion
 final class CustomTabBarVC: UITabBarController {
     
     private let pedometer = CMPedometer()
+    
     lazy var mainButton: UIButton = {
         let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 48, height: 48))
         btn.backgroundColor = .mainBlue
@@ -91,7 +92,7 @@ final class CustomTabBarVC: UITabBarController {
     }
     
     @objc func goToRunTrackingVC() {
-        CoreMotionService.shared.checkAuthrization { [weak self] status in
+        CoreMotionManager.shared.checkAuthrization { [weak self] status in
             guard let self = self else { return }
             if status == .authorized {
                 let viewController = UINavigationController(rootViewController: RunTrackingVC())

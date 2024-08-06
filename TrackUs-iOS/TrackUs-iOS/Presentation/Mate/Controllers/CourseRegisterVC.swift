@@ -483,7 +483,7 @@ class CourseRegisterVC: UIViewController {
                         // Post 업로드
                         PostService().uploadPost(post: post) { error in
                             if let error = error {
-                                print("DEBUG: Failed to upload post: \(error.localizedDescription)")
+                                debugPrint(#function + error.localizedDescription)
                             } else {
                                 DispatchQueue.main.async {
                                     let courseDetailVC = CourseDetailVC(isBack: false)
@@ -526,7 +526,7 @@ class CourseRegisterVC: UIViewController {
                             }
                         }
                     } else {
-                        print("DEBUG: Image upload failed")
+                        
                     }
                 }
             }
@@ -578,7 +578,7 @@ class CourseRegisterVC: UIViewController {
                         // Post 업로드
                         PostService().uploadPost(post: post) { error in
                             if let error = error {
-                                print("DEBUG: Failed to upload post: \(error.localizedDescription)")
+                                debugPrint(#function + error.localizedDescription)
                             } else {
                                 DispatchQueue.main.async {
                                     
@@ -603,7 +603,7 @@ class CourseRegisterVC: UIViewController {
                             }
                         }
                     } else {
-                        print("DEBUG: Image upload failed")
+                        
                     }
                 }
             }
@@ -938,7 +938,7 @@ class CourseRegisterVC: UIViewController {
         snapshotter.start { snapshot, error in
             guard let snapshot = snapshot else {
                 if let error = error {
-                    print("Error: \(error.localizedDescription)")
+                    debugPrint(#function + error.localizedDescription)
                 }
                 return
             }
@@ -1012,7 +1012,7 @@ class CourseRegisterVC: UIViewController {
                     address += subLocality
                 }
             } else {
-                print("DEBUG: 주소 검색 실패 \(error?.localizedDescription ?? "Unknown error")")
+                
             }
             completion(address)
         })

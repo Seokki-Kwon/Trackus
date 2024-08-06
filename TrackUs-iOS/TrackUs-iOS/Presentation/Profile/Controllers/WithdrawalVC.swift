@@ -258,16 +258,9 @@ class WithdrawalVC: UIViewController, UITextViewDelegate {
         let db = Firestore.firestore()
         let userRef = db.collection("users").document(User.currentUid)
         userRef.delete { error in
-            if let error = error {
-                //print("Error deleting user document: \(error)")
-                return
-            }
+            
             
             Auth.auth().currentUser?.delete { error in
-                if let error = error {
-                    //print("Error deleting user account: \(error)")
-                    return
-                }
                 
                 do {
                     try Auth.auth().signOut()
@@ -279,7 +272,7 @@ class WithdrawalVC: UIViewController, UITextViewDelegate {
                     
                     
                 } catch let signOutError as NSError {
-                    //print("Error signing out: %@", signOutError)
+                    
                 }
             }
         }

@@ -87,7 +87,6 @@ class SearchVC: UIViewController, UITextFieldDelegate {
     @objc func btnDoneBarTapped(sender: Any) {
         searchBar.resignFirstResponder()
         guard let searchText = searchBar.text, !searchText.isEmpty else {
-            print("DEBUG: Search text is nil or empty")
             return
         }
         searchPosts(for: searchText)
@@ -127,8 +126,7 @@ class SearchVC: UIViewController, UITextFieldDelegate {
     // 키보드 리턴키
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         searchBar.resignFirstResponder()
-        guard let searchText = searchBar.text, !searchText.isEmpty else {
-            print("DEBUG: Search text is nil or empty")
+        guard let searchText = searchBar.text, !searchText.isEmpty else {        
             return true
         }
         searchPosts(for: searchText)

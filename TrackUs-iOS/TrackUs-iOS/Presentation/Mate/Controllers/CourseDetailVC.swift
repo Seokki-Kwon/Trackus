@@ -277,7 +277,7 @@ class CourseDetailVC: UIViewController {
         } else {
             PostService().enterPost(postUid: postUid, userUid: uid, members: members) { updatedMembers, error in
                 if let error = error {
-                    print("Error: \(error.localizedDescription)")
+                    debugPrint(#function + error.localizedDescription)
                     
                     self.showAlert(title: "", message: "해당 모집글에 인원이 다 찼습니다.", action: "참여")
                 } else if let updatedMembers = updatedMembers {
@@ -653,7 +653,7 @@ class CourseDetailVC: UIViewController {
             "members.\(uid)": true
         ]) { error in
             if let error = error {
-                print("Error updating document: \(error)")
+                debugPrint(#function + error.localizedDescription)
             }
         }
         
@@ -661,7 +661,7 @@ class CourseDetailVC: UIViewController {
             "usersUnreadCountInfo.\(uid)": 0
         ]) { error in
             if let error = error {
-                print("Error updating document: \(error)")
+                debugPrint(#function + error.localizedDescription)
             }
             completionHandler()
         }
@@ -706,7 +706,7 @@ class CourseDetailVC: UIViewController {
         PostService().fetchPost(uid: postUid) { post, error in
             
             if let error = error {
-                print("DEBUG: Error FetchPostDetail")
+                debugPrint(#function + error.localizedDescription)
                 self.showAlert(title: "오류", message: "모집글을 불러오지 못했습니다.", action: "상태")
                 return
             }
@@ -804,7 +804,7 @@ class CourseDetailVC: UIViewController {
                     address += " " + subLocality
                 }
             } else {
-                print("DEBUG: 주소 검색 실패 \(error?.localizedDescription ?? "Unknown error")")
+                
             }
             completion(address)
         })

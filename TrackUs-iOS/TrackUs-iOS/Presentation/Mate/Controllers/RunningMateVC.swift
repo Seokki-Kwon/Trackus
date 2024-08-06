@@ -241,7 +241,7 @@ class RunningMateVC: UIViewController {
             guard let self = self else { return }
             
             if let error = error {
-                print("DEBUG: Error fetching posts = \(error.localizedDescription)")
+                debugPrint(#function + error.localizedDescription)
                 self.refreshControl.endRefreshing()
                 return
             }
@@ -256,7 +256,6 @@ class RunningMateVC: UIViewController {
                 self.tableView.reloadData()
                 self.isPagingComplete = false
             } else {
-                print("DEBUG: No posts found")
                 self.refreshControl.endRefreshing()
             }
         }
@@ -274,7 +273,7 @@ class RunningMateVC: UIViewController {
             guard let self = self else { return }
             
             if let error = error {
-                print("DEBUG: Error fetching posts = \(error.localizedDescription)")
+                debugPrint(#function + error.localizedDescription)
                 self.isLoadingMore = false
                 return
             }
@@ -293,7 +292,7 @@ class RunningMateVC: UIViewController {
                 self.posts.sort { $0.createdAt > $1.createdAt }
                 self.tableView.reloadData()
             } else {
-                print("DEBUG: No posts found")
+                
             }
             self.isLoadingMore = false
         }

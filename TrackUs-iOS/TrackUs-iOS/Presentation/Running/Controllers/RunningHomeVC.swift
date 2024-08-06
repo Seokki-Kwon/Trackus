@@ -96,8 +96,7 @@ final class RunningHomeVC: UIViewController {
                 print("Error fetching posts: \(error)")
                 return
             }
-            guard let posts = posts else {
-                print("No posts found")
+            guard let posts = posts else {                
                 return
             }
             

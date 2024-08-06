@@ -175,7 +175,7 @@ final class SelectePhotoVC: UIViewController {
                 self.session = session
             }
             catch {
-                print(error)
+                debugPrint(#function + error.localizedDescription)
             }
         }
     }

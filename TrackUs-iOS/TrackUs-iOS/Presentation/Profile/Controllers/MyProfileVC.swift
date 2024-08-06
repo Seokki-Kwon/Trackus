@@ -155,7 +155,7 @@ class MyProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         userRecordsCollection.getDocuments { [weak self] (querySnapshot, error) in
             guard let self = self else { return }
             if let error = error {
-                print("Error fetching running stats: \(error)")
+                debugPrint(#function + error.localizedDescription)
                 return
             }
 
@@ -493,14 +493,14 @@ class MyProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
             .getDocuments { [weak self] (querySnapshot, error) in
                 guard let self = self else { return }
                 if let error = error {
-                    print("Error getting documents: \(error)")
+                    debugPrint(#function + error.localizedDescription)
                 } else {
                     self.posts = querySnapshot?.documents.compactMap { document in
                         do {
                             let post = try document.data(as: Post.self)
                             return post
                         } catch {
-                            print("Error decoding post: \(error)")
+                            debugPrint(#function + error.localizedDescription)
                             return nil
                         }
                     } ?? []
@@ -524,14 +524,14 @@ class MyProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
             .getDocuments { [weak self] (querySnapshot, error) in
                 guard let self = self else { return }
                 if let error = error {
-                    print("Error getting documents: \(error)")
+                    debugPrint(#function + error.localizedDescription)
                 } else {
                     self.records = querySnapshot?.documents.compactMap { document in
                         do {
                             let record = try document.data(as: Running.self)
                             return record
                         } catch {
-                            print("Error decoding record: \(error)")
+                            debugPrint(#function + error.localizedDescription)
                             return nil
                         }
                     } ?? []
@@ -729,7 +729,7 @@ class MyProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
                 self.fetchPosts()
                 self.fetchRecords()
             } else {
-                print("Document does not exist")
+                
             }
         }
         

@@ -197,10 +197,9 @@ extension SideMenuVC: UITableViewDelegate, UITableViewDataSource {
             cell.configure(with: myInfo)
         } else {
             let memberUid = chat.nonSelfMembers[indexPath.row - 1]
-            print("chat.nonSelfMembers: \(chat.nonSelfMembers)")
-            print("indexPath.row: \(indexPath.row)")
-            if let memberInfo = chatManager.userInfo[memberUid] {
-                print("memberInfo.uid: \(memberInfo.uid)")
+            
+            
+            if let memberInfo = chatManager.userInfo[memberUid] {                
                 cell.configure(with: memberInfo)
             }
         }

@@ -221,7 +221,7 @@ class OtherProfileVC: UIViewController, UITableViewDataSource, UITableViewDelega
         userRecordsCollection.getDocuments { [weak self] (querySnapshot, error) in
             guard let self = self else { return }
             if let error = error {
-                print("Error fetching running stats: \(error)")
+                debugPrint(#function + error.localizedDescription)
                 return
             }
 
@@ -469,14 +469,14 @@ class OtherProfileVC: UIViewController, UITableViewDataSource, UITableViewDelega
             .getDocuments { [weak self] (querySnapshot, error) in
                 guard let self = self else { return }
                 if let error = error {
-                    print("Error getting documents: \(error)")
+                    debugPrint(#function + error.localizedDescription)
                 } else {
                     self.records = querySnapshot?.documents.compactMap { document in
                         do {
                             let record = try document.data(as: Running.self)
                             return record
                         } catch {
-                            print("Error decoding record: \(error)")
+                            debugPrint(#function + error.localizedDescription)
                             return nil
                         }
                     } ?? []

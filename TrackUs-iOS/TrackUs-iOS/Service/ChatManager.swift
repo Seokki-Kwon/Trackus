@@ -59,7 +59,7 @@ class ChatManager {
                         let firestoreChatRoom = try document.data(as: FirestoreChatRoom.self)
                         return self?.makeChatRooms(firestoreChatRoom, currentUId, dispatchGroup: dispatchGroup)
                     } catch {
-                        print(error)
+                        debugPrint(#function + error.localizedDescription)
                     }
                     
                     return nil
@@ -164,7 +164,7 @@ class ChatManager {
                 .whereField("members.\(opponentUid)", in: [true, false])
                 .getDocuments { [weak self] (querySnapshot, error) in
                     if let error = error {
-                        print("Error getting documents: \(error)")
+                        debugPrint(#function + error.localizedDescription)
                         return
                     }
                     // 기존 채팅방 정보 있을 경우
