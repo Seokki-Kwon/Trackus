@@ -451,12 +451,6 @@ class MyProfileVC: UIViewController, UITableViewDataSource, UITableViewDelegate 
         } else if tableView == recordsTableView {
             let record = records[indexPath.row]
             
-            let runningResultVC = RunningResultVC()
-            runningResultVC.runModel = record
-            runningResultVC.setSaveButtonHidden(true)
-            runningResultVC.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(runningResultVC, animated: true)
-            
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }

@@ -8,7 +8,7 @@
 import UIKit
 import CoreMotion
 
-final class CustomTabBarVC: UITabBarController {
+final class MainTabBar: UITabBarController {
     
     private let pedometer = CMPedometer()
     
@@ -95,8 +95,14 @@ final class CustomTabBarVC: UITabBarController {
         CoreMotionManager.shared.checkAuthrization { [weak self] status in
             guard let self = self else { return }
             if status == .authorized {
-                let viewController = UINavigationController(rootViewController: RunTrackingVC())
+                
+                let viewModel = TrackingViewModel()
+                let trackingVC = TrackingViewController(viewModel: viewModel)
+                
+                let viewController = UINavigationController(rootViewController: trackingVC)
+                
                 viewController.modalPresentationStyle = .fullScreen
+                
                 self.present(viewController, animated: false)
             } else if status == .denied {
                 self.showAuthorizationAlert()

@@ -124,7 +124,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     // 메인 화면
     func showMainView() {
         DispatchQueue.main.async {
-            self.window?.rootViewController = CustomTabBarVC()
+            self.window?.rootViewController = MainTabBar()
         }
     }
     

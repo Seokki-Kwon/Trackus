@@ -281,7 +281,8 @@ final class SignUpVC: UIViewController, MainButtonEnabledDelegate {
               let window = sceneDelegate.window else {
             return
         }
-        let customTabBarVC = CustomTabBarVC()
+        
+        let customTabBarVC = MainTabBar()
         window.rootViewController = customTabBarVC
         window.makeKeyAndVisible()
     }
