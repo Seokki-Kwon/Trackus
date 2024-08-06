@@ -14,14 +14,20 @@ protocol UserLocationDelegate: AnyObject {
 }
 
 final class LocationService: NSObject, CLLocationManagerDelegate {
+    
     static let shared = LocationService()
+    
     let locationManager = CLLocationManager()
+    
     var currentLocation : CLLocationCoordinate2D?
+    
     weak var userLocationDelegate: UserLocationDelegate?
+    
     var allowBackgroundUpdates: Bool {
         get {locationManager.allowsBackgroundLocationUpdates }
         set {locationManager.allowsBackgroundLocationUpdates = newValue}
     }
+    
     private override init() {
         super.init()
         locationManager.delegate = self

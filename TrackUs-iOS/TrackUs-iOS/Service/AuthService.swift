@@ -22,6 +22,7 @@ final class AuthService: NSObject {
     
     
     var window: UIWindow?
+    
     fileprivate var currentNonce: String?
     
     // MARK: - 회원관리
@@ -31,7 +32,7 @@ final class AuthService: NSObject {
             try Auth.auth().signOut()
         }
         catch {
-            print(error)
+            debugPrint(#function + error.localizedDescription)
         }
     }
     
@@ -71,16 +72,16 @@ final class AuthService: NSObject {
         // 이미지 storage에 저장
         ref.putData(jpegData, metadata: metadata) { metadata, error in
             if let error = error {
-                print("Failed to push image to Storage: \(error)")
+                debugPrint(#function + error.localizedDescription)
                 return
             }
             // url 받아오기
             ref.downloadURL { url, error in
                 if let error = error{
-                    print("Failed to retrieve downloadURL: \(error)")
+                    debugPrint(#function + error.localizedDescription)
                     return
                 }
-                print("Successfully stored image with url: \(url?.absoluteString ?? "")")
+                
                 
                 // 이미지 url 저장
                 guard let url = url else { return }
@@ -109,7 +110,7 @@ final class AuthService: NSObject {
             if error != nil {
                 return
             }
-            print("success")
+            
         }
     }
     
@@ -168,11 +169,9 @@ extension AuthService: ASAuthorizationControllerDelegate{
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
             }
             guard let appleIDToken = appleIDCredential.identityToken else {
-                print("Unable to fetch identity token")
                 return
             }
             guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-                print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
                 return
             }
             // Initialize a Firebase credential, including the user's full name.
@@ -186,7 +185,7 @@ extension AuthService: ASAuthorizationControllerDelegate{
                     _ = try await Auth.auth().signIn(with: credential)
                 }
                 catch {
-                    print("Error authenticating: \(error.localizedDescription)")
+                    debugPrint(#function + error.localizedDescription)
                 }
             }
         }
@@ -194,7 +193,7 @@ extension AuthService: ASAuthorizationControllerDelegate{
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         // Handle error.
-        print("Sign in with Apple errored: \(error)")
+        debugPrint(#function + error.localizedDescription)
     }
 }
 
@@ -222,11 +221,9 @@ extension AuthService {
     private func kakaoLoginInApp() {
         UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
             if let error = error {
-                print(error)
+                debugPrint(#function + error.localizedDescription)
             }
             else {
-                //oauthToken.
-                print("카카오톡 로그인 성공")
                 
                 //do something
                 if let _ = oauthToken {
@@ -241,9 +238,8 @@ extension AuthService {
 
         UserApi.shared.loginWithKakaoAccount { oauthToken, error in
             if let error = error {
-                print("DEBUG: 카카오톡 로그인 에러 \(error.localizedDescription)")
+                debugPrint(#function + error.localizedDescription)
             } else {
-                print("카카오톡 로그인 성공")
                 if let _ = oauthToken {
                     self.loginInFirebase()
                 }
@@ -256,19 +252,19 @@ extension AuthService {
 
         UserApi.shared.me() { user, error in
             if let error = error {
-                print("error: 카카오톡 사용자 정보가져오기 에러 \(error.localizedDescription)")
+                debugPrint(#function + error.localizedDescription)
             } else {
-                print("카카오톡 사용자 정보 가져오기 성공.")
 
                 guard let user = user else { return }
                 // 파이어베이스 유저 생성 (이메일로 회원가입)
                 Auth.auth().createUser(withEmail: (user.kakaoAccount?.email)!, password: "\(String(describing: user.id))") { result, error in
                     if let error = error {
-                        print("error: 파이어베이스 사용자 생성 실패 \(error.localizedDescription)")
+                        debugPrint(#function + error.localizedDescription)
+                        
                         Auth.auth().signIn(withEmail: (user.kakaoAccount?.email)!,
                                            password: "\(String(describing: user.id))")
                     } else {
-                        print("카카오 파이어베이스 사용자 생성")
+                        
                     }
                 }
             }

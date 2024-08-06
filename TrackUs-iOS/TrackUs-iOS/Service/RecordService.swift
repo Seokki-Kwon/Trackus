@@ -23,7 +23,7 @@ final public class RecordService {
             try Firestore.firestore().collection("users").document(uid).collection("records").addDocument(from: record)
             
         } catch {
-            print(#function + "upload failed")
+            debugPrint(#function + error.localizedDescription)
         }
     }
     

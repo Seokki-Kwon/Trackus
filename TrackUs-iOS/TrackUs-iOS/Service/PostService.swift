@@ -187,7 +187,9 @@ class PostService {
     func fetchPost(uid: String, completion: @escaping (Post?, Error?) -> Void) {
         Firestore.firestore().collection("posts").document(uid).getDocument { snapshot, error in
             if let error = error {
-                print("DEBUG: Failed to fetch post = \(error.localizedDescription)")
+                
+                debugPrint(#function + error.localizedDescription)
+                
                 completion(nil, error)
                 return
             }
@@ -210,7 +212,7 @@ class PostService {
                   let runningStyle = document["runningStyle"] as? Int,
                   let members = document["members"] as? [String],
                   let ownerUid = document["ownerUid"] as? String else {
-                print("DEBUG: Failed to cast data for document \(uid)")
+                
                 completion(nil, nil)
                 return
             }
@@ -272,7 +274,7 @@ class PostService {
     static func uploadImage(image: UIImage, completion: @escaping (URL?) -> Void) {
         guard let resizedImage = image.resizeWithWidth(width: 100) else { return }
         guard let imageData = resizedImage.jpegData(compressionQuality: 1.0) else {
-            print("DEBUG: Failed to convert image to data")
+            
             completion(nil)
             return
         }
@@ -285,21 +287,19 @@ class PostService {
         let firebaseReference = Storage.storage().reference().child("posts_image").child(imageName)
         firebaseReference.putData(imageData, metadata: metaData) { metaData, error in
             if let error = error {
-                print("DEBUG: Failed to upload image: \(error.localizedDescription)")
+                debugPrint(#function + error.localizedDescription)
                 completion(nil)
                 return
             }
             
             firebaseReference.downloadURL { url, error in
                 if let error = error {
-                    print("DEBUG: Failed to get download URL: \(error.localizedDescription)")
+                    debugPrint(#function + error.localizedDescription)
                     completion(nil)
                     return
                 }
                 completion(url)
                 
-                // 이미지 setImage
-                // ImageCacheManager.shared.setImage(imageData, forkey: url.absoluteString)
                 
             }
         }
@@ -309,7 +309,7 @@ class PostService {
     func deleteImage(imageUrl: String) {
         let storageReference = Storage.storage().reference(forURL: imageUrl)
         storageReference.delete { error in
-            print("DEBUG: Image Delete Failed = \(String(describing: error?.localizedDescription))")
+            debugPrint(#function + String(describing: error?.localizedDescription))
         }
     }
     
@@ -338,13 +338,12 @@ class PostService {
         Firestore.firestore().collection("posts")
             .getDocuments { snapshot, error in
                 if let error = error {
-                    print("DEBUG: Search Error \(error.localizedDescription)")
+                    debugPrint(#function + error.localizedDescription)
                     completion([])
                     return
                 }
                 
                 guard let documents = snapshot?.documents else {
-                    print("DEBUG: No documents found for searchText: \(searchText)")
                     completion([])
                     return
                 }
@@ -366,7 +365,7 @@ class PostService {
                           let runningStyle = data["runningStyle"] as? Int,
                           let members = data["members"] as? [String],
                           let ownerUid = data["ownerUid"] as? String else {
-                        print("DEBUG: Invalid document data for documentID: \(document.documentID)")
+                        
                         return
                     }
                     
@@ -405,7 +404,7 @@ class PostService {
                 var whoReportAt = postData["whoReportAt"] as? [String] ?? []
                 
                 if whoReportAt.contains(userUid) {
-                    print("DEBUG: Error = User has already reported this post")
+                    
                     completion(false)
                     return
                 }
@@ -415,7 +414,7 @@ class PostService {
                 
                 postRef.updateData(["whoReportAt": whoReportAt]) { error in
                     if let error = error {
-                        print("Error updating document: \(error)")
+                        debugPrint(#function + error.localizedDescription)
                         completion(false)
                         return
                     }
@@ -430,16 +429,16 @@ class PostService {
                     
                     postRef.collection("reasons").addDocument(data: report) { error in
                         if let error = error {
-                            print("Error adding document: \(error)")
+                            debugPrint(#function + error.localizedDescription)
                             completion(false)
                         } else {
-                            print("Document added successfully")
+                            
                             completion(true)
                         }
                     }
                 }
             } else {
-                print("Error: Post not found")
+                
                 completion(false)
             }
         }

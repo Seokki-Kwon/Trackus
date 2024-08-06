@@ -135,7 +135,9 @@ class ChatManager {
                 self.userInfo[uid] = userInfo
                 completionHandler()
             } catch {
-                print("Error decoding document: \(error)")
+                
+                debugPrint(#function + error.localizedDescription)
+                
                 self.chatRooms = self.chatRooms.map{
                     var chatRoom = $0
                     chatRoom.members.removeValue(forKey: uid)
@@ -176,7 +178,7 @@ class ChatManager {
                             }
                             return
                         } catch {
-                            print("Error decoding document: \(error)")
+                            debugPrint(#function + error.localizedDescription)
                         }
                     }
                     

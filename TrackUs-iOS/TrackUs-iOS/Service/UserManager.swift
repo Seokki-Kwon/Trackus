@@ -47,13 +47,12 @@ class UserManager {
         
         let _ = Firestore.firestore().collection("users").document(uid).addSnapshotListener { documentSnapshot, error in
             if let error = error {
-                print("Error getting documents: \(error)")
-                print("사용자 데이터 불러오기 실패")
-                //completionHandler(true)
+                
+                debugPrint(#function + error.localizedDescription)
+                                
             }else {
                 guard let document = documentSnapshot, document.exists, let data = document.data() else {
-                    // 사용자 정보 없을 경우
-                    //completionHandler(true)
+                    
                     return
                 }
                 
@@ -66,10 +65,10 @@ class UserManager {
                         self.user = user
                         print(user.uid)
                     }
-                    //completionHandler(false)
+                    
                 } catch {
-                    print("Error decoding user: \(error)")
-                    //completionHandler(true)
+                    debugPrint(#function + error.localizedDescription)
+                    
                 }
             }
         }
@@ -86,7 +85,7 @@ class UserManager {
             "profileImageUrl": user.profileImageUrl as Any
         ]) { error in
             if let error = error {
-                print("Error updating user data: \(error)")
+                debugPrint(#function + error.localizedDescription)
                 completion(false)
             } else {
                 completion(true)
@@ -102,7 +101,7 @@ class UserManager {
         Firestore.firestore().collection("users").document(uid).updateData(data) { error in
             if let error = error {
                 // 업데이트 중에 오류가 발생한 경우 처리
-                print("Error updating token: \(error.localizedDescription)")
+                debugPrint(#function + error.localizedDescription)
             } else {
                 // 업데이트가 성공한 경우 처리
                 print("Token updated successfully")

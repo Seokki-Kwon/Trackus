@@ -8,13 +8,13 @@
 import Foundation
 import CoreMotion
 
-class CoreMotionService {
+class CoreMotionManager {
     enum AuthrizationStatus {
         case authorized
         case denied
     }
     
-    static let shared = CoreMotionService()
+    static let shared = CoreMotionManager()
     let pedometer = CMPedometer()
     let altimeter = CMAltimeter()
     private init() {}
