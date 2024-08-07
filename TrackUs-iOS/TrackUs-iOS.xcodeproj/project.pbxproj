@@ -16,6 +16,10 @@
 		4753CD0F2C61F7EB00B7A2C1 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 4753CD0E2C61F7EB00B7A2C1 /* SnapKit */; };
 		479784C32C633E2D00B10EB4 /* CoreMotionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479784C22C633E2D00B10EB4 /* CoreMotionService.swift */; };
 		479784C62C634AFC00B10EB4 /* Record.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479784C52C634AFC00B10EB4 /* Record.swift */; };
+		479784C82C63598600B10EB4 /* TrackingResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479784C72C63598600B10EB4 /* TrackingResultViewController.swift */; };
+		479784CC2C635C0200B10EB4 /* RecordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479784CB2C635C0200B10EB4 /* RecordRepository.swift */; };
+		479784CE2C635CE700B10EB4 /* RecordRepositoryType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479784CD2C635CE700B10EB4 /* RecordRepositoryType.swift */; };
+		479784D02C6364F800B10EB4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 479784CF2C6364F800B10EB4 /* Constants.swift */; };
 		47A7EA732C624E0B0025594F /* ViewModelable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A7EA722C624E0B0025594F /* ViewModelable.swift */; };
 		47A7EA752C625E0D0025594F /* Publisher+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47A7EA742C625E0D0025594F /* Publisher+.swift */; };
 		610F3C732C1C34E800DF0744 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610F3C722C1C34E800DF0744 /* NetworkService.swift */; };
@@ -124,6 +128,10 @@
 		4753CD0B2C61F76700B7A2C1 /* RunningMapCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RunningMapCell.swift; sourceTree = "<group>"; };
 		479784C22C633E2D00B10EB4 /* CoreMotionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMotionService.swift; sourceTree = "<group>"; };
 		479784C52C634AFC00B10EB4 /* Record.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Record.swift; sourceTree = "<group>"; };
+		479784C72C63598600B10EB4 /* TrackingResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingResultViewController.swift; sourceTree = "<group>"; };
+		479784CB2C635C0200B10EB4 /* RecordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordRepository.swift; sourceTree = "<group>"; };
+		479784CD2C635CE700B10EB4 /* RecordRepositoryType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordRepositoryType.swift; sourceTree = "<group>"; };
+		479784CF2C6364F800B10EB4 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		47A7EA722C624E0B0025594F /* ViewModelable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelable.swift; sourceTree = "<group>"; };
 		47A7EA742C625E0D0025594F /* Publisher+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Publisher+.swift"; sourceTree = "<group>"; };
 		610F3C722C1C34E800DF0744 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
@@ -252,6 +260,23 @@
 			path = Old;
 			sourceTree = "<group>";
 		};
+		479784C92C635BD200B10EB4 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				479784CB2C635C0200B10EB4 /* RecordRepository.swift */,
+				479784CD2C635CE700B10EB4 /* RecordRepositoryType.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		479784CA2C635BDB00B10EB4 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				479784C92C635BD200B10EB4 /* Repository */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		61B0DED32BFB7662009E360B /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -278,6 +303,7 @@
 			children = (
 				82BE457B2BEFB0A0007AE54A /* RunningHomeVC.swift */,
 				4753CD0B2C61F76700B7A2C1 /* RunningMapCell.swift */,
+				479784C72C63598600B10EB4 /* TrackingResultViewController.swift */,
 				4753CCFE2C61F50500B7A2C1 /* TrackingViewController.swift */,
 			);
 			path = Views;
@@ -318,6 +344,7 @@
 				4753CCF82C61E68A00B7A2C1 /* GoogleService-Info.plist */,
 				4753CCF92C61E68A00B7A2C1 /* Info.plist */,
 				985F66092C29943700473606 /* Config.xcconfig */,
+				479784CA2C635BDB00B10EB4 /* Data */,
 				989803482BF5D82800F5DFBD /* Service */,
 				82277FFE2C08C3C700AA59E3 /* Utils */,
 				988618312BF34A6C002ACB4E /* Model */,
@@ -348,6 +375,7 @@
 				98704C7D2BFB78E9009C0FAF /* Component */,
 				989803472BF5D80700F5DFBD /* Extension */,
 				47A7EA722C624E0B0025594F /* ViewModelable.swift */,
+				479784CF2C6364F800B10EB4 /* Constants.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -505,7 +533,6 @@
 			children = (
 				9886182F2BF348C8002ACB4E /* AuthService.swift */,
 				98887F8D2BFDBDCB006F929E /* ImageCacheManager.swift */,
-				822E06B52BF1EC2500636CCC /* LocationService.swift */,
 				82707D0E2BF72BD40038E4A7 /* HapticManager.swift */,
 				98887F912C00938F006F929E /* UserManager.swift */,
 				987E2FE42C08548300B1970F /* ChatManager.swift */,
@@ -513,6 +540,7 @@
 				967D829A2C0CAD6E00CC1F2A /* RecordService.swift */,
 				610F3C722C1C34E800DF0744 /* NetworkService.swift */,
 				61936F992C22A75800F4C372 /* AskService.swift */,
+				822E06B52BF1EC2500636CCC /* LocationService.swift */,
 				479784C22C633E2D00B10EB4 /* CoreMotionService.swift */,
 			);
 			path = Service;
@@ -671,8 +699,10 @@
 				987E2FE52C08548300B1970F /* ChatManager.swift in Sources */,
 				96AC57362C059CC700F1A73C /* SettingVC.swift in Sources */,
 				98AB54492BF71B620047310A /* ProfilePictureInputView.swift in Sources */,
+				479784CC2C635C0200B10EB4 /* RecordRepository.swift in Sources */,
 				47A7EA752C625E0D0025594F /* Publisher+.swift in Sources */,
 				96AC57342C059CAA00F1A73C /* WithdrawalVC.swift in Sources */,
+				479784C82C63598600B10EB4 /* TrackingResultViewController.swift in Sources */,
 				61625E3A2BFE75A500E6D1F3 /* PostService.swift in Sources */,
 				826248192BFB4D9B0028C221 /* Running.swift in Sources */,
 				98601D5D2C07219A0056E407 /* ChatRoomCell.swift in Sources */,
@@ -683,6 +713,7 @@
 				826922E52C04664000D506C2 /* RunInfoModel.swift in Sources */,
 				4753CD0C2C61F76700B7A2C1 /* RunningMapCell.swift in Sources */,
 				61B0DEC82BF74D5C009E360B /* CourseDetailVC.swift in Sources */,
+				479784CE2C635CE700B10EB4 /* RecordRepositoryType.swift in Sources */,
 				82BE455A2BEFA948007AE54A /* SceneDelegate.swift in Sources */,
 				96D43FA22C0D8CEB0059C377 /* ReportUserVC.swift in Sources */,
 				96D43F9E2C0CAE530059C377 /* ImageUploader.swift in Sources */,
@@ -691,6 +722,7 @@
 				988DF4722C2443B400C84E35 /* MemberCellTableViewCell.swift in Sources */,
 				479784C62C634AFC00B10EB4 /* Record.swift in Sources */,
 				4753CCFD2C61E9E400B7A2C1 /* Print.swift in Sources */,
+				479784D02C6364F800B10EB4 /* Constants.swift in Sources */,
 				988618382BF37E81002ACB4E /* SignUpVC.swift in Sources */,
 				984EF3572C16929B0004CB9A /* SideMenuVC.swift in Sources */,
 				615ADAE22C07802B005CAC75 /* RefreshView.swift in Sources */,

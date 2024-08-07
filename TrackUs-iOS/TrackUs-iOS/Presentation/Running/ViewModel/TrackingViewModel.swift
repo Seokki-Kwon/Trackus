@@ -7,7 +7,7 @@
 
 import Foundation
 import Combine
-
+import MapKit
 
 final class TrackingViewModel: ViewModelable {
     
@@ -16,6 +16,8 @@ final class TrackingViewModel: ViewModelable {
     enum Action {
         case startButtonTap
         case stopButtonTap
+        case pauseButtonTap
+        case saveButtonTap
     }
     
     struct State {
@@ -23,18 +25,25 @@ final class TrackingViewModel: ViewModelable {
         let totalTime = CurrentValueSubject<Double, Never>(0)
         let currentDistance = CurrentValueSubject<Double, Never>(0)
         let currentPace = CurrentValueSubject<Double, Never>(0)
+        let coordinates = CurrentValueSubject<[CLLocation], Never>([])
+        let recordData = CurrentValueSubject<Record?, Never>(nil)
     }
     
+    // State
     public var state = State()
-    
     private var beforeDistance = 0.0
     private var cancellables = Set<AnyCancellable>()
     private var timer: AnyCancellable?
     
+    // Dependency
     private let coreMotionService: CoreMotionServiceType
+    private let locationService: LocationService
+    private let recordRepository: RecordRepositoryType
     
-    init() {
+    init(recordRepository: RecordRepositoryType) {
         self.coreMotionService = CoreMotionService.shared
+        self.locationService = LocationService.shared
+        self.recordRepository = recordRepository
     }
     
 }
@@ -45,8 +54,12 @@ extension TrackingViewModel {
         switch action {
         case .startButtonTap:
             startTracking()
+        case .pauseButtonTap:
+            stopTracking()
         case .stopButtonTap:
             stopTracking()
+        case .saveButtonTap:
+            uploadRecordData()
         }
     }
     
@@ -54,6 +67,7 @@ extension TrackingViewModel {
         state.isTrackingMode.send(true)
         startTimer()
         startRecord()
+        startLocationUpdate()
     }
     
     func stopTracking() {
@@ -106,5 +120,42 @@ extension TrackingViewModel {
     private func stopRecord() {
         coreMotionService.stopUpdate()
         beforeDistance = state.currentDistance.value
+    }
+}
+
+extension TrackingViewModel: UserLocationDelegate {
+    func userLocationUpated(location: CLLocation) {
+        state.coordinates.send(state.coordinates.value + [location])
+    }
+    
+    // 위치 업데이트
+    private func startLocationUpdate() {
+        locationService.allowBackgroundUpdates = true
+        locationService.userLocationDelegate = self
+    }
+    
+    private func stopLocationUpdate() {
+        locationService.allowBackgroundUpdates = false
+        locationService.userLocationDelegate = nil
+    }
+}
+
+// MARK: - Firebase
+extension TrackingViewModel {
+    func uploadRecordData() {
+        let uploadRecord = Record(distance: state.currentDistance.value, 
+                                  pace: state.currentPace.value,
+                                  totalTime: state.totalTime.value)
+        
+        recordRepository.uploadRecord(uploadRecord)
+            .sink(receiveCompletion: { completion in
+                switch completion {
+                case .finished:
+                    print("완료")
+                case .failure(let error):
+                    print("실패")
+                }
+            }, receiveValue: { _ in })
+            .store(in: &cancellables)
     }
 }

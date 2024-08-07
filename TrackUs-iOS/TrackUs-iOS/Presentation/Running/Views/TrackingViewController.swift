@@ -43,9 +43,10 @@ final class TrackingViewController: UIViewController {
         $0.addTarget(self, action: #selector(stopButtonTapped), for: .touchUpInside)
     }
     
-    private let pauseButton = UIButton().then {
+    private lazy var pauseButton = UIButton().then {
         $0.setTitle("Pause", for: .normal)
         $0.backgroundColor = .blue
+        $0.addTarget(self, action: #selector(pauseButtonTapped), for: .touchUpInside)
     }
     
     private let buttonContainerView = UIStackView().then {
@@ -119,8 +120,8 @@ extension TrackingViewController {
         }
         
         buttonContainerView.addArrangedSubview(startButton)
-        buttonContainerView.addArrangedSubview(stopButton)
         buttonContainerView.addArrangedSubview(pauseButton)
+        buttonContainerView.addArrangedSubview(stopButton)
     }
 }
 
@@ -165,7 +166,12 @@ extension TrackingViewController {
         viewModel.send(.startButtonTap)
     }
     
+    @objc func pauseButtonTapped() {
+        viewModel.send(.pauseButtonTap)
+    }
+    
     @objc func stopButtonTapped() {
-        viewModel.send(.stopButtonTap)
+        let trackingResultVC = TrackingResultViewController(viewModel: viewModel)
+        navigationController?.pushViewController(trackingResultVC, animated: true)
     }
 }

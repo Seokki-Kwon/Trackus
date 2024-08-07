@@ -7,7 +7,6 @@
 
 import Foundation
 import CoreLocation
-import UIKit
 
 protocol UserLocationDelegate: AnyObject {
     func userLocationUpated(location: CLLocation)
@@ -24,8 +23,8 @@ final class LocationService: NSObject, CLLocationManagerDelegate {
     weak var userLocationDelegate: UserLocationDelegate?
     
     var allowBackgroundUpdates: Bool {
-        get {locationManager.allowsBackgroundLocationUpdates }
-        set {locationManager.allowsBackgroundLocationUpdates = newValue}
+        get { locationManager.allowsBackgroundLocationUpdates }
+        set { locationManager.allowsBackgroundLocationUpdates = newValue}
     }
     
     private override init() {

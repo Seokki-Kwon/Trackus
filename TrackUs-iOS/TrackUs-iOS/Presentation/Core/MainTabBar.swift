@@ -96,7 +96,8 @@ final class MainTabBar: UITabBarController {
             guard let self = self else { return }
             if status == .authorized {
                 
-                let viewModel = TrackingViewModel()
+                let recordRepository = TestRecordRepository()
+                let viewModel = TrackingViewModel(recordRepository: recordRepository)
                 let trackingVC = TrackingViewController(viewModel: viewModel)
                 
                 let viewController = UINavigationController(rootViewController: trackingVC)
