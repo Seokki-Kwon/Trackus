@@ -92,7 +92,7 @@ final class MainTabBar: UITabBarController {
     }
     
     @objc func goToRunTrackingVC() {
-        CoreMotionManager.shared.checkAuthrization { [weak self] status in
+        CoreMotionService.shared.checkAuthrization { [weak self] status in
             guard let self = self else { return }
             if status == .authorized {
                 

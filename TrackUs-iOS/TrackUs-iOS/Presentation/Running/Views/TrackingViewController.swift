@@ -27,10 +27,6 @@ final class TrackingViewController: UIViewController {
         $0.font = UIFont.systemFont(ofSize: 16)
     }
     
-    private let calorieLabel = UILabel().then {
-        $0.text = "0.0"
-    }
-    
     private let paceLabel = UILabel().then {
         $0.text = "0'00"
     }
@@ -83,7 +79,8 @@ extension TrackingViewController {
     private func setupLayout() {
         view.addSubview(distanceLabel)
         distanceLabel.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
         }
         
         view.addSubview(timeLabel)
@@ -92,16 +89,11 @@ extension TrackingViewController {
             $0.top.equalTo(distanceLabel.snp.bottom).offset(10)
         }
         
-        view.addSubview(calorieLabel)
-        calorieLabel.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(timeLabel.snp.bottom).offset(10)
-        }
         
         view.addSubview(paceLabel)
         paceLabel.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.top.equalTo(calorieLabel.snp.bottom).offset(10)
+            $0.top.equalTo(timeLabel.snp.bottom).offset(10)
         }
         
         startButton.snp.makeConstraints {
@@ -142,10 +134,26 @@ extension TrackingViewController {
             }
             .store(in: &cancellables)
         
-        viewModel.state.elapsedTime
+        viewModel.state.totalTime
             .withUnretained(self)
             .sink { (owner, count) in
                 owner.timeLabel.text = count.toHHMMSSTimeFormat
+            }
+            .store(in: &cancellables)
+        
+        viewModel.state.currentDistance
+            .withUnretained(self)
+            .receive(on: DispatchQueue.main)
+            .sink { (owner, currentDistance) in
+                owner.distanceLabel.text = "\(currentDistance)"
+            }
+            .store(in: &cancellables)
+        
+        viewModel.state.currentPace
+            .withUnretained(self)
+            .receive(on: DispatchQueue.main)
+            .sink { (owner, currentPace) in
+                owner.paceLabel.text = "\(currentPace)"
             }
             .store(in: &cancellables)
     }
